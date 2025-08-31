@@ -25,12 +25,12 @@ export default function AboutPage() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-50 to-white py-16">
+      <section className="bg-gradient-to-br from-muted/50 to-background py-16">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             About Ramblers Media
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             We&apos;re a Dallas‑based team led by a veteran director‑DP—multidisciplinary, hands‑on, and comfortable wearing many hats.
           </p>
         </div>
@@ -41,8 +41,8 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 className="text-3xl font-bold text-black mb-6">Our Approach</h2>
-              <div className="space-y-4 text-gray-600">
+              <h2 className="text-3xl font-bold text-foreground mb-6">Our Approach</h2>
+              <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg">
                   Lean, punctual crews, a strong safety culture, and a proven track record across multiple U.S. states and abroad.
                 </p>
@@ -55,8 +55,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="bg-gray-50 p-8 rounded-lg">
-              <h3 className="text-2xl font-semibold text-black mb-6">Key Strengths</h3>
+            <div className="bg-muted/50 p-8 rounded-lg">
+              <h3 className="text-2xl font-semibold text-foreground mb-6">Key Strengths</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-6 w-6 text-black mt-0.5 flex-shrink-0" />

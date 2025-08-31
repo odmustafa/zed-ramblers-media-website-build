@@ -147,23 +147,23 @@ export default function HomePage() {
             </div>
 
             <div className="bg-gray-50 p-8 rounded-lg">
-              <h3 className="text-xl font-semibold text-black mb-4">Why Agencies Choose Us</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Why Agencies Choose Us</h3>
               <div className="space-y-3">
                 <div className="flex items-start space-x-3">
-                  <Star className="h-5 w-5 text-black mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Reliability first: on time, every time.</span>
+                  <Star className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Reliability first: on time, every time.</span>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <Star className="h-5 w-5 text-black mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Accuracy: we respect technical subject matter and review with SMEs.</span>
+                  <Star className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Accuracy: we respect technical subject matter and review with SMEs.</span>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <Star className="h-5 w-5 text-black mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Agility: lean crew that scales up as needed.</span>
+                  <Star className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Agility: lean crew that scales up as needed.</span>
                 </div>
                 <div className="flex items-start space-x-3">
-                  <Star className="h-5 w-5 text-black mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Deliverables: captioned, versioned, and QC&apos;d files.</span>
+                  <Star className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">Deliverables: captioned, versioned, and QC&apos;d files.</span>
                 </div>
               </div>
             </div>
@@ -172,16 +172,16 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-black dark:bg-gray-900 text-white">
+      <section className="py-16 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Start Your Project?
           </h2>
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-xl text-primary-foreground/80 mb-8">
             Tell us about your project timeline, location, and deliverables. We&apos;ll respond within one business day.
           </p>
           <Link href="/contact">
-            <Button size="lg" className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-3">
+            <Button size="lg" variant="secondary" className="text-lg px-8 py-3">
               Get Your Quote
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
