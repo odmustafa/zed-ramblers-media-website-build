@@ -4,9 +4,14 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { api } from '../../../../../convex/_generated/api'
 import { ConvexHttpClient } from 'convex/browser'
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
-
 export async function POST(req: Request) {
+  // Initialize Convex client
+  const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
+  if (!convexUrl) {
+    throw new Error('NEXT_PUBLIC_CONVEX_URL is not set')
+  }
+  const convex = new ConvexHttpClient(convexUrl)
+
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
 
@@ -29,7 +34,6 @@ export async function POST(req: Request) {
 
   // Get the body
   const payload = await req.text()
-  const body = JSON.parse(payload)
 
   // Create a new Svix instance with your secret.
   const wh = new Webhook(WEBHOOK_SECRET)
@@ -51,7 +55,6 @@ export async function POST(req: Request) {
   }
 
   // Handle the webhook
-  const { id } = evt.data
   const eventType = evt.type
 
   if (eventType === 'user.created' || eventType === 'user.updated') {
