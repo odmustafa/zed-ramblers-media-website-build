@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, CheckCircle, Star, Users, Camera, Shield } from 'lucide-react'
+import { ArrowRight, CheckCircle, Star, Camera, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Layout from '@/components/layout/Layout'
 
@@ -11,10 +11,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-black dark:text-white mb-6">
-              Contractor‑Grade Video Production
+              Professional Video Production
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-              Procurement‑ready vendor for agencies and primes. Punctual crews, vetted and insured. ARRI Alexa, Kino Flo. Secure, compliant deliverables.
+              We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
@@ -38,16 +38,16 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Built for Agencies & Primes
+              Our Expertise
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Lean crews. On‑time calls. Secure deliverables. Scroll for work samples.
+              Compelling storytelling and high-quality production across all formats.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 dark:bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Reliability First</h3>
@@ -55,7 +55,7 @@ export default function HomePage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 dark:bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Secure & Compliant</h3>
@@ -63,7 +63,7 @@ export default function HomePage() {
             </div>
 
             <div className="text-center">
-              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-blue-600 dark:bg-blue-500 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Camera className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Professional Equipment</h3>
@@ -81,47 +81,47 @@ export default function HomePage() {
               Our Services
             </h2>
             <p className="text-xl text-muted-foreground">
-              Concepting → Pre‑Production → Production → Post. Agile from start to finish.
+              From concept to final cut, we bring your vision to life with compelling storytelling.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Corporate Communications */}
+            {/* Video Advertising */}
             <div className="bg-card p-8 rounded-lg shadow-sm border border-border">
-              <h3 className="text-xl font-semibold text-card-foreground mb-4">Corporate Communications</h3>
+              <h3 className="text-xl font-semibold text-card-foreground mb-4">Video Advertising</h3>
               <p className="text-muted-foreground mb-4">
-                Executive interviews, internal comms, training, recruitment, and public information spots.
+                Compelling video advertising content that drives engagement and delivers results for your brand.
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Clear, compliant storytelling</li>
-                <li>• Aligned to your style guides</li>
-                <li>• Security protocols respected</li>
+                <li>• Brand-focused storytelling</li>
+                <li>• Multi-platform optimization</li>
+                <li>• Performance-driven content</li>
               </ul>
             </div>
 
-            {/* Event Coverage */}
+            {/* Music Videos */}
             <div className="bg-white dark:bg-card p-8 rounded-lg shadow-sm border border-gray-200 dark:border-border">
-              <h3 className="text-xl font-semibold text-black dark:text-card-foreground mb-4">Event Coverage</h3>
+              <h3 className="text-xl font-semibold text-black dark:text-card-foreground mb-4">Music Videos</h3>
               <p className="text-gray-600 dark:text-muted-foreground mb-4">
-                Vérité to panel coverage, planned or live. Multi‑cam setups with clean, reliable audio.
+                Creative music video production with high-quality cinematography and compelling visual storytelling.
               </p>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-muted-foreground">
-                <li>• Professional live streaming</li>
-                <li>• Multi-camera coverage</li>
-                <li>• Real-time editing support</li>
+                <li>• Creative concept development</li>
+                <li>• Professional cinematography</li>
+                <li>• Artist-focused direction</li>
               </ul>
             </div>
 
-            {/* Training Videos */}
+            {/* Film Production */}
             <div className="bg-white dark:bg-card p-8 rounded-lg shadow-sm border border-gray-200 dark:border-border">
-              <h3 className="text-xl font-semibold text-black dark:text-card-foreground mb-4">Training Videos</h3>
+              <h3 className="text-xl font-semibold text-black dark:text-card-foreground mb-4">Film Production</h3>
               <p className="text-gray-600 dark:text-muted-foreground mb-4">
-                Demo videos & process explainers. Technically accurate visuals that highlight benefits.
+                Full-service film production from concept to final cut with compelling storytelling and high-quality production.
               </p>
               <ul className="space-y-2 text-sm text-gray-600 dark:text-muted-foreground">
-                <li>• Reduce friction through clarity</li>
-                <li>• Optimized for web & mobile</li>
-                <li>• SME-approved content</li>
+                <li>• Complete production services</li>
+                <li>• Professional post-production</li>
+                <li>• Story-driven content</li>
               </ul>
             </div>
           </div>
@@ -172,12 +172,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary text-primary-foreground">
+      <section className="py-16 bg-gray-900 dark:bg-gray-950 text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Start Your Project?
           </h2>
-          <p className="text-xl text-primary-foreground/80 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             Tell us about your project timeline, location, and deliverables. We&apos;ll respond within one business day.
           </p>
           <Link href="/contact">

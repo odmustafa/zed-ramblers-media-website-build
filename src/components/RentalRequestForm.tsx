@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -61,15 +61,9 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false)
-    const [isClient, setIsClient] = useState(false)
 
-    // Avoid SSR issues with Convex hooks
-    // Always call hooks unconditionally
+    // Convex mutation for submitting rental requests
     const submitRentalRequest = useMutation(api.equipment.addRentalRequest)
-
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
 
     const form = useForm<RentalFormData>({
         resolver: zodResolver(rentalSchema),
@@ -116,15 +110,11 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
         setIsSubmitting(true)
 
         try {
-            if (!isClient) {
-                throw new Error('Client not ready')
-            }
             await submitRentalRequest({
                 equipmentId: equipment._id,
                 startDate: new Date(data.startDate).getTime(),
                 endDate: new Date(data.endDate).getTime(),
                 totalPrice: totalPrice,
-                status: 'pending',
                 notes: `Quantity: ${data.quantity}, Phone: ${data.phone}, Address: ${data.billingAddress}, Special Requests: ${data.specialRequests || 'None'}`,
             })
 

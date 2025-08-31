@@ -13,9 +13,9 @@ import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ramblers Media - Professional Video Production | Dallas, TX",
-  description: "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services. Award-winning team with 15+ years experience.",
-  keywords: "video production, corporate video, government contracts, Dallas, professional filming, media production, video services, commercial production, event videography",
+  title: "Ramblers Media - Professional Video Production | North Hollywood, CA",
+  description: "We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.",
+  keywords: "video production, video advertising, music videos, film production, North Hollywood, professional filming, media production, video services, commercial production, cinematography",
   authors: [{ name: "Ramblers Media Team" }],
   creator: "Ramblers Media",
   publisher: "Ramblers Media",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: "Ramblers Media - Professional Video Production | Dallas, TX",
-    description: "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services. Award-winning team with 15+ years experience.",
+    title: "Ramblers Media - Professional Video Production | North Hollywood, CA",
+    description: "We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.",
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ramblersmedia.com',
     siteName: "Ramblers Media",
     images: [
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ramblers Media - Professional Video Production | Dallas, TX",
-    description: "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services.",
+    title: "Ramblers Media - Professional Video Production | North Hollywood, CA",
+    description: "We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.",
     images: ["/ramblers-media-logo.svg"],
     creator: "@ramblersmedia",
   },
@@ -74,36 +74,52 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const clerkPublishableKey = process.env.CLERK_PUBLISHABLE_KEY;
-
-  const content = (
-    <ConvexClientProvider>
-      <ThemeProvider defaultTheme="system" storageKey="ramblers-theme">
-        <html lang="en">
-          <head>
-            <link rel="icon" type="image/svg+xml" href="/rmb-icon.svg" />
-            <MetadataJsonLd />
-          </head>
-          <body className={inter.className}>
-            <BackgroundOverlay />
-            {children}
-            <WebVitals />
-            <Suspense fallback={null}>
-              <GoogleAnalytics measurementId="GA_MEASUREMENT_ID" />
-            </Suspense>
-          </body>
-        </html>
-      </ThemeProvider>
-    </ConvexClientProvider>
-  );
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
   if (clerkPublishableKey) {
     return (
       <ClerkProvider publishableKey={clerkPublishableKey}>
-        {content}
+        <ConvexClientProvider>
+          <ThemeProvider defaultTheme="system" storageKey="ramblers-theme">
+            <html lang="en">
+              <head>
+                <link rel="icon" type="image/svg+xml" href="/rmb-icon.svg" />
+                <MetadataJsonLd />
+              </head>
+              <body className={inter.className}>
+                <BackgroundOverlay />
+                {children}
+                <WebVitals />
+                <Suspense fallback={null}>
+                  <GoogleAnalytics measurementId="GA_MEASUREMENT_ID" />
+                </Suspense>
+              </body>
+            </html>
+          </ThemeProvider>
+        </ConvexClientProvider>
       </ClerkProvider>
     );
   }
 
-  return content;
+  // Fallback without Clerk (should not happen in production)
+  return (
+    <ThemeProvider defaultTheme="system" storageKey="ramblers-theme">
+      <html lang="en">
+        <head>
+          <link rel="icon" type="image/svg+xml" href="/rmb-icon.svg" />
+          <MetadataJsonLd />
+        </head>
+        <body className={inter.className}>
+          <BackgroundOverlay />
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-red-600 mb-4">Configuration Error</h1>
+              <p className="text-gray-600">Clerk configuration is missing. Please check your environment variables.</p>
+            </div>
+          </div>
+          <WebVitals />
+        </body>
+      </html>
+    </ThemeProvider>
+  );
 }

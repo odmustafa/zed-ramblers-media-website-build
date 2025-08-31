@@ -44,7 +44,7 @@ export function SEOTrustSignals() {
                             <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                                 <MapPin className="h-8 w-8" />
                             </div>
-                            <h3 className="text-xl font-semibold text-black mb-2">Dallas-Based</h3>
+                            <h3 className="text-xl font-semibold text-black mb-2">Los Angeles-based</h3>
                             <p className="text-gray-600">
                                 Local expertise with deep knowledge of Dallas-Fort Worth business community and government agencies.
                             </p>
@@ -72,8 +72,7 @@ export function SEOTrustSignals() {
                             Certifications & Compliance
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            We maintain all necessary certifications and compliance standards
-                            to work with government agencies and enterprise clients.
+                            We maintain all necessary certifications and compliance standards to work with government agencies and enterprise clients.
                         </p>
                     </div>
 
@@ -82,8 +81,7 @@ export function SEOTrustSignals() {
                             <Shield className="h-12 w-12 text-black mx-auto mb-4" />
                             <h3 className="text-xl font-semibold text-black mb-2">SAM.gov Registered</h3>
                             <p className="text-gray-600 mb-4">
-                                Officially registered with System for Award Management (SAM.gov)
-                                as a government contractor with active UEI and CAGE codes.
+                                Officially registered with System for Award Management (SAM.gov) with active UEI and CAGE codes.
                             </p>
                             <div className="text-sm text-gray-500">
                                 UEI: R2FH91KF50M5CUSHU4PG4LVAGSUMZD5171TJGPKK<br />

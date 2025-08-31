@@ -5,25 +5,25 @@ export function MetadataJsonLd() {
         "name": "Ramblers Media",
         "url": "http://localhost:3000",
         "logo": "http://localhost:3000/ramblers-media-logo.svg",
-        "description": "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services.",
+        "description": "We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.",
         "foundingDate": "2009",
         "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Dallas",
-            "addressRegion": "TX",
+            "addressLocality": "North Hollywood",
+            "addressRegion": "CA",
             "addressCountry": "US"
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+1-214-555-0123",
+            "telephone": "+1-765-760-0699",
             "contactType": "customer service",
             "availableLanguage": "English"
         },
         "sameAs": [
             "https://www.facebook.com/ramblersmedia",
             "https://www.instagram.com/ramblersmedia",
-            "https://www.linkedin.com/company/ramblersmedia",
-            "https://www.youtube.com/@ramblersmedia"
+            "https://vimeo.com/rmp",
+            "https://www.youtube.com/@ramblersmediaproductions"
         ],
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -33,24 +33,24 @@ export function MetadataJsonLd() {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "Service",
-                        "name": "Corporate Video Production",
-                        "description": "Professional corporate video production services for businesses and organizations"
+                        "name": "Video Advertising",
+                        "description": "Compelling video advertising content that drives engagement and results"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "Service",
-                        "name": "Government Contract Services",
-                        "description": "Specialized video production services for government agencies and contracts"
+                        "name": "Music Videos",
+                        "description": "Creative music video production with high-quality cinematography and storytelling"
                     }
                 },
                 {
                     "@type": "Offer",
                     "itemOffered": {
                         "@type": "Service",
-                        "name": "Equipment Rental",
-                        "description": "Professional video equipment rental with delivery and setup services"
+                        "name": "Film Production",
+                        "description": "Full-service film production from concept to final cut"
                     }
                 }
             ]
@@ -64,11 +64,11 @@ export function MetadataJsonLd() {
         },
         "knowsAbout": [
             "Video Production",
-            "Corporate Communications",
-            "Government Contracts",
-            "Professional Filming",
-            "Video Equipment Rental",
-            "Live Event Streaming",
+            "Video Advertising",
+            "Music Videos",
+            "Film Production",
+            "Cinematography",
+            "Storytelling",
             "Commercial Production"
         ]
     };
@@ -79,30 +79,29 @@ export function MetadataJsonLd() {
         "@id": "http://localhost:3000/#localbusiness",
         "name": "Ramblers Media",
         "image": "http://localhost:3000/ramblers-media-logo.svg",
-        "description": "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services.",
+        "description": "We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.",
         "url": "http://localhost:3000",
-        "telephone": "+1-214-555-0123",
+        "telephone": "+1-765-760-0699",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "1234 Media Drive",
-            "addressLocality": "Dallas",
-            "addressRegion": "TX",
-            "postalCode": "75201",
+            "addressLocality": "North Hollywood",
+            "addressRegion": "CA",
+            "postalCode": "91601",
             "addressCountry": "US"
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "32.7767",
-            "longitude": "-96.7970"
+            "latitude": "34.1369",
+            "longitude": "-118.3774"
         },
         "areaServed": [
             {
                 "@type": "City",
-                "name": "Dallas"
+                "name": "Los Angeles"
             },
             {
                 "@type": "State",
-                "name": "Texas"
+                "name": "California"
             },
             {
                 "@type": "Country",
@@ -124,7 +123,7 @@ export function MetadataJsonLd() {
         "@type": "WebSite",
         "name": "Ramblers Media",
         "url": "http://localhost:3000",
-        "description": "Professional video production company in Dallas, TX specializing in corporate communications and government contracts.",
+        "description": "Full-service video production company in North Hollywood, CA specializing in video advertising, music videos, and film production.",
         "inLanguage": "en-US",
         "copyrightHolder": {
             "@type": "Organization",

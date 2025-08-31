@@ -4,20 +4,20 @@ import { SEOTrustSignals } from '@/components/SEOTrustSignals'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About Ramblers Media - Professional Video Production Team | Dallas, TX',
-  description: 'Learn about Ramblers Media, a Dallas-based video production company with 15+ years experience. Government contractor ready with bilingual capabilities and proven track record.',
-  keywords: 'about Ramblers Media, video production team, Dallas video company, government contractor, bilingual video production, professional filming crew',
+  title: 'About Ramblers Media - Professional Video Production Team | North Hollywood, CA',
+  description: 'Learn about Ramblers Media, a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life.',
+  keywords: 'about Ramblers Media, video production team, North Hollywood video company, video advertising, music videos, film production, professional filming crew',
   openGraph: {
-    title: 'About Ramblers Media - Professional Video Production Team | Dallas, TX',
-    description: 'Learn about Ramblers Media, a Dallas-based video production company with 15+ years experience. Government contractor ready with bilingual capabilities and proven track record.',
+    title: 'About Ramblers Media - Professional Video Production Team | North Hollywood, CA',
+    description: 'Learn about Ramblers Media, a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life.',
     type: 'article',
     publishedTime: '2024-01-01T00:00:00.000Z',
     authors: ['Ramblers Media Team'],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Ramblers Media - Professional Video Production Team | Dallas, TX',
-    description: 'Learn about Ramblers Media, a Dallas-based video production company with 15+ years experience.',
+    title: 'About Ramblers Media - Professional Video Production Team | North Hollywood, CA',
+    description: 'Learn about Ramblers Media, a full-service video production company specializing in video advertising, music videos, and film production.',
   },
 }
 
@@ -31,7 +31,7 @@ export default function AboutPage() {
             About Ramblers Media
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We&apos;re a Dallas‑based team led by a veteran director‑DP—multidisciplinary, hands‑on, and comfortable wearing many hats.
+            We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.
           </p>
         </div>
       </section>

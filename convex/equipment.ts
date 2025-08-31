@@ -92,25 +92,45 @@ export const addRentalRequest = mutation({
     startDate: v.number(),
     endDate: v.number(),
     totalPrice: v.number(),
-    status: v.union(
-      v.literal("pending"),
-      v.literal("approved"),
-      v.literal("rejected"),
-      v.literal("completed")
-    ),
     notes: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    // For now, we'll use a placeholder userId - in production this would come from Clerk auth
-    const userId = "placeholder-user-id";
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    // Get or create user in our database
+    let user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    // If user doesn't exist, create them automatically
+    if (!user) {
+      const userId = await ctx.db.insert("users", {
+        clerkId: identity.subject,
+        email: identity.email || "",
+        firstName: identity.givenName || undefined,
+        lastName: identity.familyName || undefined,
+        role: "client",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
+
+      user = await ctx.db.get(userId);
+      if (!user) {
+        throw new Error("Failed to create user. Please try again.");
+      }
+    }
 
     return await ctx.db.insert("rentalRequests", {
-      userId,
+      userId: user.clerkId,
       equipmentId: args.equipmentId,
       startDate: args.startDate,
       endDate: args.endDate,
       totalPrice: args.totalPrice,
-      status: args.status,
+      status: "pending",
       notes: args.notes,
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -118,13 +138,31 @@ export const addRentalRequest = mutation({
   },
 });
 
-// Get rental requests for a user
+// Get rental requests for current user
 export const getUserRentalRequests = query({
-  args: { userId: v.string() },
-  handler: async (ctx, args) => {
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return [];
+    }
+
+    // Check if user exists in our database, if not create them
+    let user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) {
+      // For queries, we can't create users, so just return empty array
+      // User will be created when they perform their first mutation
+      return [];
+    }
+
     return await ctx.db
       .query("rentalRequests")
-      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+      .order("desc")
       .collect();
   },
 });
@@ -133,6 +171,20 @@ export const getUserRentalRequests = query({
 export const getAllRentalRequests = query({
   args: {},
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user || user.role !== "admin") {
+      throw new Error("Not authorized");
+    }
+
     return await ctx.db
       .query("rentalRequests")
       .order("desc")
@@ -152,6 +204,20 @@ export const updateRentalRequestStatus = mutation({
     ),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user || user.role !== "admin") {
+      throw new Error("Not authorized");
+    }
+
     await ctx.db.patch(args.id, {
       status: args.status,
       updatedAt: Date.now(),

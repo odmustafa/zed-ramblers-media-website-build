@@ -173,7 +173,7 @@ export default function ContactPage() {
                                                                 <FormItem>
                                                                     <FormLabel>Phone Number</FormLabel>
                                                                     <FormControl>
-                                                                        <Input placeholder="(214) 555-0123" {...field} />
+                                                                        <Input placeholder="(765) 760-0699" {...field} />
                                                                     </FormControl>
                                                                     <FormMessage />
                                                                 </FormItem>
@@ -366,8 +366,8 @@ export default function ContactPage() {
                                             <Phone className="h-5 w-5 text-black mt-1" />
                                             <div>
                                                 <h4 className="font-semibold text-black">Phone</h4>
-                                                <p className="text-gray-600">(214) 555-RAMB</p>
-                                                <p className="text-sm text-gray-500">Mon-Fri, 8AM-6PM CST</p>
+                                                <p className="text-gray-600">(765) 760-0699</p>
+                                                <p className="text-sm text-gray-500">Available for inquiries</p>
                                             </div>
                                         </div>
 

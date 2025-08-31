@@ -1,9 +1,7 @@
 'use client'
 
-// Force dynamic rendering to avoid SSR issues with Convex
-export const dynamic = 'force-dynamic'
-
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { Calendar, DollarSign, Package, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -11,9 +9,11 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Layout from '@/components/layout/Layout'
-import { useQuery } from 'convex/react'
+import { useQuery, useMutation, Authenticated, Unauthenticated, AuthLoading } from 'convex/react'
+import { SignInButton, useUser } from '@clerk/nextjs'
 import { api } from '../../../../convex/_generated/api'
 import { Id } from '../../../../convex/_generated/dataModel'
+import { useEffect } from 'react'
 
 interface RentalRequest {
     _id: Id<"rentalRequests">
@@ -29,20 +29,21 @@ interface RentalRequest {
     _creationTime: number
 }
 
-export default function RentalsDashboard() {
+function RentalsDashboard() {
     const [activeTab, setActiveTab] = useState('all')
-    const [isClient, setIsClient] = useState(false)
+    const { user } = useUser()
+    const ensureUser = useMutation(api.users.ensureCurrentUser)
 
-    // Always call hooks unconditionally
-    const rentalRequestsQuery = useQuery(api.equipment.getUserRentalRequests, { userId: 'placeholder-user-id' })
-
-    // Avoid SSR issues with Convex hooks
+    // Ensure user exists in Convex database when component mounts
     useEffect(() => {
-        setIsClient(true)
-    }, [])
+        if (user) {
+            ensureUser().catch(console.error)
+        }
+    }, [user, ensureUser])
 
-    // Use the data only after client-side mount
-    const rentalRequests = isClient ? (rentalRequestsQuery || []) : []
+    // Fetch rental requests data
+    const rentalRequestsQuery = useQuery(api.equipment.getUserRentalRequests)
+    const rentalRequests = rentalRequestsQuery || []
 
     // Filter rental requests based on status
     const filteredRequests = activeTab === 'all'
@@ -85,8 +86,8 @@ export default function RentalsDashboard() {
 
     const statusCounts = getStatusCounts()
 
-    // Show loading state while component is mounting
-    if (!isClient) {
+    // Show loading state while data is being fetched
+    if (rentalRequestsQuery === undefined) {
         return (
             <Layout>
                 <div className="min-h-screen bg-gray-50">
@@ -300,3 +301,48 @@ export default function RentalsDashboard() {
         </Layout>
     )
 }
+
+// Wrapper component with authentication
+function AuthenticatedRentalsDashboard() {
+    return (
+        <Layout>
+            <AuthLoading>
+                <div className="min-h-screen bg-gray-50">
+                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div className="px-4 py-6 sm:px-0">
+                            <div className="animate-pulse">
+                                <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+                                <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                    {[1, 2, 3, 4].map(i => (
+                                        <div key={i} className="h-24 bg-gray-200 rounded"></div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AuthLoading>
+            <Unauthenticated>
+                <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                    <div className="text-center">
+                        <h1 className="text-2xl font-bold text-gray-900 mb-4">Sign in to view your rentals</h1>
+                        <SignInButton mode="modal">
+                            <button className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                    </div>
+                </div>
+            </Unauthenticated>
+            <Authenticated>
+                <RentalsDashboard />
+            </Authenticated>
+        </Layout>
+    )
+}
+
+// Export the component with dynamic import to disable SSR
+export default dynamic(() => Promise.resolve(AuthenticatedRentalsDashboard), {
+    ssr: false
+})

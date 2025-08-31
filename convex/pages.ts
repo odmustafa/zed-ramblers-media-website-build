@@ -69,35 +69,26 @@ export const seedDatabase = mutation({
         const now = Date.now();
 
         // Home page content
-        const homeContent = `# Contractor‑Grade Video Production
+        const homeContent = `# Professional Video Production
 
-Procurement‑ready vendor for agencies and primes. Punctual crews, vetted and insured. ARRI Alexa, Kino Flo. Secure, compliant deliverables.
+We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.
 
-## Built for Agencies & Primes
+## Our Expertise
 
-Lean crews. On‑time calls. Secure deliverables. Scroll for work samples.
+Compelling storytelling and high-quality production across all formats.
 
 ## Services
 
-Concepting → Pre‑Production → Production → Post. Agile from start to finish.
+From concept to final cut, we bring your vision to life with compelling storytelling.
 
-### Corporate & Government Communications
-Executive interviews, internal comms, training, recruitment, and public information spots. Clear, compliant storytelling aligned to your style guides and security protocols.
+### Video Advertising
+Compelling video advertising content that drives engagement and delivers results for your brand. Performance-driven content optimized for multiple platforms.
 
-### Clarity that moves users
-- Demo videos & process explainers.
-- Technically accurate visuals that highlight benefits.
-- Reduce friction — optimized for web, mobile, broadcast.
+### Music Videos
+Creative music video production with high-quality cinematography and compelling visual storytelling. Artist-focused direction with professional execution.
 
-### Real moments. Clean capture.
-- Vérité to panel coverage, planned or live.
-- Multi‑cam setups with clean, reliable audio.
-- Secure deliverables with approvals trail.
-
-### Ready for every channel
-- Website video, social cuts, broadcast‑ready spots.
-- Versioned deliverables with loudness compliance.
-- Captions and accessibility on request.
+### Film Production
+Full-service film production from concept to final cut with compelling storytelling and high-quality production. Complete production services with professional post-production.
 
 ### Explain the complex fast
 - 2D/3D, kinetic type, data visualization.
@@ -163,13 +154,13 @@ Tell us about your project timeline, location, and deliverables. We'll respond w
         // About page content
         const aboutContent = `# About Ramblers Media
 
-We're a Dallas‑based team led by a veteran director‑DP—multidisciplinary, hands‑on, and comfortable wearing many hats. Lean, punctual crews, a strong safety culture, and a proven track record across multiple U.S. states and abroad; bilingual (English/Spanish) for clear client and talent communication under pressure.
+We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life with compelling storytelling and high-quality production.
 
-- Agency producer background with calm, solutions‑first sets.
-- Pre‑pro to delivery: efficient, organized, and transparent.
-- COI on file; secure data handling.
+Based in North Hollywood, CA, we combine creative vision with technical excellence to deliver outstanding results for our clients.
 
-Punctual, reliable, fully equipped.
+- Professional crews with extensive experience across multiple formats
+- Complete production services from concept development to final delivery
+- High-quality equipment and technical expertise for every project
 
 ## Experience
 
@@ -188,17 +179,17 @@ Time‑sensitive shoots with approvals and security needs.`;
         const servicesContent = `# Services & Equipment
 
 ### Services
-- Corporate, government & NGO communications
-- Interviews, training, recruitment
-- Product demos & explainers
-- Event coverage & docu‑style stories
-- Script, boards, casting, locations
-- Post: edit, color, mix, captions
+- Video advertising that drives engagement and results
+- Creative music video production with high-quality cinematography
+- Full-service film production from concept to final cut
+- Professional cinematography and visual storytelling
+- Complete post-production services
+- Concept development and creative direction
 
 ### Equipment
-ARRI Alexas · Sony FX line · Cine primes/zooms · Kino Flo/LED · Multi‑cam audio · Drone · Teleprompter · Secure on‑set data.
+Professional cameras · High-end lenses · Professional lighting · Audio equipment · Post-production suites · Creative tools.
 
-Need a full itemized package? Ask on the contact page and we'll tailor the build.`;
+Need a full itemized package? Contact us and we'll tailor the build for your project.`;
 
         // Contact content
         const contactContent = `# Request a Quote
@@ -230,15 +221,15 @@ Last Updated: Aug 20, 2025`;
                 slug: "home",
                 title: "Contractor-Grade Video Production | Ramblers Media",
                 content: homeContent,
-                metaDescription: "Procurement-ready video production vendor for agencies and primes. Punctual crews, vetted and insured. ARRI Alexa, Kino Flo. Secure, compliant deliverables.",
-                metaTitle: "Contractor-Grade Video Production | Ramblers Media",
+                metaDescription: "Full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life.",
+                metaTitle: "Professional Video Production | Ramblers Media",
                 published: true,
             },
             {
                 slug: "about",
                 title: "About Us | Ramblers Media",
                 content: aboutContent,
-                metaDescription: "Dallas-based video production team with veteran director-DP. Lean, punctual crews with proven track record across multiple US states.",
+                metaDescription: "North Hollywood-based video production company specializing in video advertising, music videos, and film production. Professional crews with extensive experience.",
                 metaTitle: "About Us | Professional Video Production Team",
                 published: true,
             },
@@ -246,7 +237,7 @@ Last Updated: Aug 20, 2025`;
                 slug: "services",
                 title: "Services & Equipment | Ramblers Media",
                 content: servicesContent,
-                metaDescription: "Corporate, government & NGO video communications. ARRI Alexas, Sony FX line, Cine primes, Kino Flo/LED, Multi-cam audio.",
+                metaDescription: "Video advertising, music videos, and film production services. Professional equipment and creative expertise for every project.",
                 metaTitle: "Video Production Services & Professional Equipment",
                 published: true,
             },
@@ -254,7 +245,7 @@ Last Updated: Aug 20, 2025`;
                 slug: "contact",
                 title: "Contact Us | Request a Quote",
                 content: contactContent,
-                metaDescription: "Contact Ramblers Media for professional video production services. Available nationwide with Dallas-Fort Worth base.",
+                metaDescription: "Contact Ramblers Media for professional video production services. Based in North Hollywood, CA, specializing in video advertising, music videos, and film production.",
                 metaTitle: "Contact Ramblers Media | Request Video Production Quote",
                 published: true,
             },

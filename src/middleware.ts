@@ -1,18 +1,15 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-// Simple middleware without Clerk for now
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+const isProtectedRoute = createRouteMatcher([
+  '/dashboard(.*)',
+  '/admin(.*)',
+])
 
-  // Redirect protected routes to home page for now
-  if (pathname.startsWith('/dashboard') || pathname.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/', request.url))
+export default clerkMiddleware(async (auth, req) => {
+  if (isProtectedRoute(req)) {
+    await auth.protect()
   }
-
-  // Allow all other routes
-  return NextResponse.next()
-}
+})
 
 export const config = {
   matcher: [

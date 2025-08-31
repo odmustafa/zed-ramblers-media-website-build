@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, Mail, MapPin, Instagram, ExternalLink } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
+import { SiFacebook, SiInstagram, SiVimeo, SiYoutube } from '@icons-pack/react-simple-icons'
 
 const footerNavigation = {
   services: [
@@ -15,14 +16,16 @@ const footerNavigation = {
     { name: 'Privacy Policy', href: '/privacy' },
   ],
   social: [
-    { name: 'Instagram', href: 'https://instagram.com/ramblersmedia', icon: Instagram },
-    { name: 'Vimeo', href: 'https://vimeo.com/ramblersmedia', icon: ExternalLink },
+    { name: 'Facebook', href: 'https://www.facebook.com/ramblersmedia', icon: SiFacebook },
+    { name: 'Instagram', href: 'https://www.instagram.com/ramblersmedia', icon: SiInstagram },
+    { name: 'Vimeo', href: 'https://vimeo.com/rmp', icon: SiVimeo },
+    { name: 'YouTube', href: 'https://www.youtube.com/@ramblersmediaproductions', icon: SiYoutube },
   ],
 }
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-gray-900 dark:bg-gray-950 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -37,8 +40,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-gray-300 text-sm leading-relaxed">
-              {/* Dallas-based video production company specializing in corporate communications and government contracts. */}
-              Dallas-based video production company specializing in events and corporate communications.
+              We are a full-service video production company specializing in video advertising, music videos, and film production. From concept to final cut, we bring your vision to life.
             </p>
             <div className="flex space-x-4">
               {footerNavigation.social.map((item) => (
@@ -118,8 +120,8 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-300 text-sm">
-                  Based in Los Angeles, CA<br />
-                  Available nationwide
+                  North Hollywood, CA<br />
+                  United States
                 </span>
               </div>
             </div>

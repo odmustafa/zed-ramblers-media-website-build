@@ -3,7 +3,7 @@
 // Force dynamic rendering to avoid SSR issues with Convex
 export const dynamic = 'force-dynamic'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Camera, Lightbulb, Mic, Monitor, Settings, Truck, ArrowRight, Star, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -47,19 +47,11 @@ export default function EquipmentPage() {
   const [sortBy, setSortBy] = useState('name')
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null)
   const [isRentalFormOpen, setIsRentalFormOpen] = useState(false)
-  const [isClient, setIsClient] = useState(false)
 
-  // Always call hooks unconditionally
+  // Fetch equipment data
   const allEquipmentQuery = useQuery(api.equipment.getAllEquipment)
   const submitRentalRequest = useMutation(api.equipment.addRentalRequest)
-
-  // Avoid SSR issues with Convex hooks
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  // Use the data only after client-side mount
-  const allEquipment = isClient ? (allEquipmentQuery || []) : []
+  const allEquipment = allEquipmentQuery || []
 
   // Get unique categories from equipment data
   const categories = [...new Set(allEquipment.map((item: Equipment) => item.category))]
@@ -96,8 +88,8 @@ export default function EquipmentPage() {
     setSelectedEquipment(null)
   }
 
-  // Show loading state while component is mounting
-  if (!isClient) {
+  // Show loading state while data is being fetched
+  if (allEquipmentQuery === undefined) {
     return (
       <Layout>
         <div className="min-h-screen bg-gray-50">
@@ -149,24 +141,24 @@ export default function EquipmentPage() {
               <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Camera className="h-8 w-8" />
               </div>
-              <h3 className="text-lg font-semibold text-black mb-2">Corporate Communications</h3>
-              <p className="text-gray-600 text-sm">Executive interviews, training videos, and internal communications.</p>
+              <h3 className="text-lg font-semibold text-black mb-2">Video Advertising</h3>
+              <p className="text-gray-600 text-sm">Compelling video advertising content that drives engagement and results.</p>
             </div>
 
             <div className="text-center">
               <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Monitor className="h-8 w-8" />
               </div>
-              <h3 className="text-lg font-semibold text-black mb-2">Event Coverage</h3>
-              <p className="text-gray-600 text-sm">Live streaming, multi-camera coverage, and event documentation.</p>
+              <h3 className="text-lg font-semibold text-black mb-2">Music Videos</h3>
+              <p className="text-gray-600 text-sm">Creative music video production with high-quality cinematography.</p>
             </div>
 
             <div className="text-center">
               <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Lightbulb className="h-8 w-8" />
               </div>
-              <h3 className="text-lg font-semibold text-black mb-2">Training Videos</h3>
-              <p className="text-gray-600 text-sm">Process explainers, safety videos, and instructional content.</p>
+              <h3 className="text-lg font-semibold text-black mb-2">Film Production</h3>
+              <p className="text-gray-600 text-sm">Full-service film production from concept to final cut.</p>
             </div>
 
             <div className="text-center">
