@@ -1,0 +1,7 @@
+{
+    "buildCommand": "npm run build -- --no-lint",
+    "installCommand": "npm install",
+    "env": {
+        "NEXT_PUBLIC_CONVEX_URL": "https://optimistic-bear-863.convex.cloud"
+    }
+}
