@@ -165,6 +165,22 @@ export const getPortfolioCategories = query({
   },
 });
 
+// Delete all portfolio items (admin)
+export const deleteAllPortfolio = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const allPortfolio = await ctx.db
+      .query("portfolio")
+      .collect();
+
+    for (const item of allPortfolio) {
+      await ctx.db.delete(item._id);
+    }
+
+    return { success: true, message: `Deleted ${allPortfolio.length} portfolio items` };
+  },
+});
+
 // Seed portfolio data
 export const seedPortfolio = mutation({
   args: {},
@@ -181,74 +197,74 @@ export const seedPortfolio = mutation({
 
     const portfolioData = [
       {
-        title: "Corporate Training Video Series",
-        description: "A comprehensive training video series for a Fortune 500 company's employee onboarding program. Features professional narration, custom animations, and interactive elements.",
-        category: "Corporate",
+        title: "Brand Campaign Video",
+        description: "High-impact video advertising campaign for a leading tech company. Features dynamic cinematography, compelling storytelling, and performance-driven content that delivered exceptional engagement rates.",
+        category: "Video Advertising",
         clientName: "Sarah Johnson",
         clientCompany: "TechCorp Industries",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        videoType: "youtube" as const,
+        videoUrl: "https://vimeo.com/rmp/brand-campaign-2024",
+        videoType: "vimeo" as const,
         thumbnailUrl: "",
         featured: true,
         published: true,
         order: 1,
-        tags: ["corporate", "training", "animation", "narration"]
+        tags: ["video advertising", "brand campaign", "storytelling", "engagement"]
       },
       {
-        title: "Product Launch Commercial",
-        description: "High-energy commercial for a revolutionary tech product's market launch. Utilized drone cinematography, LED lighting arrays, and post-production visual effects.",
-        category: "Commercial",
-        clientName: "Mike Chen",
-        clientCompany: "InnovateLabs",
-        videoUrl: "https://vimeo.com/76979871",
+        title: "Indie Artist Music Video",
+        description: "Creative music video production featuring innovative cinematography and artistic direction. Shot on location with professional lighting and post-production effects that perfectly complement the artist's vision.",
+        category: "Music Videos",
+        clientName: "Alex Rivera",
+        clientCompany: "Independent Artist",
+        videoUrl: "https://vimeo.com/rmp/indie-music-video",
         videoType: "vimeo" as const,
         thumbnailUrl: "",
         featured: true,
         published: true,
         order: 2,
-        tags: ["commercial", "product launch", "drone", "VFX"]
+        tags: ["music video", "indie artist", "cinematography", "creative direction"]
       },
       {
-        title: "Wedding Ceremony Coverage",
-        description: "Intimate wedding ceremony documentation capturing the emotional moments of a beautiful outdoor celebration. Shot with multiple camera angles and professional audio recording.",
-        category: "Wedding",
-        clientName: "Emily & David",
-        clientCompany: "",
-        videoUrl: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-        videoType: "youtube" as const,
+        title: "Short Film Production",
+        description: "Compelling narrative short film showcasing our complete production capabilities from concept to final cut. Features professional cinematography, sound design, and post-production excellence.",
+        category: "Film Production",
+        clientName: "Director Maria Santos",
+        clientCompany: "Independent Film Collective",
+        videoUrl: "https://vimeo.com/rmp/short-film-2024",
+        videoType: "vimeo" as const,
         thumbnailUrl: "",
-        featured: false,
+        featured: true,
         published: true,
         order: 3,
-        tags: ["wedding", "ceremony", "emotional", "multi-camera"]
+        tags: ["film production", "narrative", "cinematography", "post-production"]
       },
       {
-        title: "Live Event Streaming Setup",
-        description: "Complete live streaming solution for a major corporate conference. Included 4K camera setup, professional lighting, and real-time streaming to thousands of remote viewers.",
-        category: "Live Streaming",
-        clientName: "Conference Director",
-        clientCompany: "Global Tech Summit",
-        videoUrl: "https://vimeo.com/253989945",
+        title: "Product Advertisement",
+        description: "Dynamic product advertisement combining sleek visuals with persuasive messaging. Optimized for multiple platforms and designed to drive conversions and brand awareness.",
+        category: "Video Advertising",
+        clientName: "Marketing Director",
+        clientCompany: "InnovateLabs",
+        videoUrl: "https://vimeo.com/rmp/product-ad-campaign",
         videoType: "vimeo" as const,
         thumbnailUrl: "",
         featured: false,
         published: true,
         order: 4,
-        tags: ["live streaming", "conference", "4K", "professional lighting"]
+        tags: ["video advertising", "product", "conversion", "multi-platform"]
       },
       {
-        title: "Documentary Short Film",
-        description: "Award-winning short documentary exploring community resilience. Features intimate interviews, stunning b-roll footage, and a compelling narrative arc.",
-        category: "Documentary",
-        clientName: "Director",
-        clientCompany: "Community Stories Project",
-        videoUrl: "https://www.youtube.com/watch?v=ScMzIvxBSi4",
-        videoType: "youtube" as const,
+        title: "Music Video - Electronic Artist",
+        description: "Visually stunning music video for an electronic music artist featuring synchronized lighting effects, creative camera work, and seamless integration of visual effects with the musical rhythm.",
+        category: "Music Videos",
+        clientName: "DJ Phoenix",
+        clientCompany: "Electronic Music Collective",
+        videoUrl: "https://vimeo.com/rmp/electronic-music-video",
+        videoType: "vimeo" as const,
         thumbnailUrl: "",
-        featured: true,
+        featured: false,
         published: true,
         order: 5,
-        tags: ["documentary", "interviews", "community", "award-winning"]
+        tags: ["music video", "electronic", "visual effects", "lighting"]
       }
     ];
 
