@@ -7,7 +7,8 @@ export const getPublishedPortfolio = query({
   handler: async (ctx) => {
     return await ctx.db
       .query("portfolio")
-      .filter((q) => q.eq(q.field("published"), true))
+      .withIndex("by_published", (q) => q.eq("published", true))
+      .order("asc")
       .collect();
   },
 });
@@ -18,7 +19,8 @@ export const getFeaturedPortfolio = query({
   handler: async (ctx) => {
     return await ctx.db
       .query("portfolio")
-      .filter((q) => q.eq(q.field("featured"), true))
+      .withIndex("by_featured", (q) => q.eq("featured", true))
+      .order("asc")
       .collect();
   },
 });
@@ -29,8 +31,9 @@ export const getPortfolioByCategory = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("portfolio")
-      .filter((q) => q.eq(q.field("category"), args.category))
+      .withIndex("by_category", (q) => q.eq("category", args.category))
       .filter((q) => q.eq(q.field("published"), true))
+      .order("asc")
       .collect();
   },
 });
@@ -41,6 +44,8 @@ export const getAllPortfolio = query({
   handler: async (ctx) => {
     return await ctx.db
       .query("portfolio")
+      .withIndex("by_order")
+      .order("asc")
       .collect();
   },
 });
@@ -147,7 +152,11 @@ export const updatePortfolioOrder = mutation({
 export const getPortfolioCategories = query({
   args: {},
   handler: async (ctx) => {
-    const portfolio = await ctx.db.query("portfolio").collect();
+    const portfolio = await ctx.db
+      .query("portfolio")
+      .withIndex("by_published", (q) => q.eq("published", true))
+      .order("asc")
+      .collect();
 
     // Extract unique categories
     const categories = [...new Set(portfolio.map(item => item.category))];
@@ -160,7 +169,10 @@ export const getPortfolioCategories = query({
 export const seedPortfolio = mutation({
   args: {},
   handler: async (ctx) => {
-    const existingPortfolio = await ctx.db.query("portfolio").collect();
+    const existingPortfolio = await ctx.db
+      .query("portfolio")
+      .order("asc")
+      .collect();
 
     if (existingPortfolio.length > 0) {
       console.log("Portfolio already seeded");
