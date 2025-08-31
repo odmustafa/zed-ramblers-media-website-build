@@ -34,65 +34,65 @@ export default function HomePage() {
       </section>
 
       {/* Built for Agencies & Primes */}
-      <section className="py-16 bg-white dark:bg-gray-800">
+      <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Built for Agencies & Primes
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Lean crews. On‑time calls. Secure deliverables. Scroll for work samples.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold text-black dark:text-white mb-2">Reliability First</h3>
-              <p className="text-gray-600 dark:text-gray-300">On time, every time. Professional crews that respect your schedule and deliver on promises.</p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Reliability First</h3>
+              <p className="text-muted-foreground">On time, every time. Professional crews that respect your schedule and deliver on promises.</p>
             </div>
 
             <div className="text-center">
-              <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold text-black dark:text-white mb-2">Secure & Compliant</h3>
-              <p className="text-gray-600 dark:text-gray-300">Government-ready with COI, background checks, and secure data handling protocols.</p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Secure & Compliant</h3>
+              <p className="text-muted-foreground">Government-ready with COI, background checks, and secure data handling protocols.</p>
             </div>
 
             <div className="text-center">
-              <div className="bg-black text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <div className="bg-primary text-primary-foreground rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Camera className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-semibold text-black dark:text-white mb-2">Professional Equipment</h3>
-              <p className="text-gray-600 dark:text-gray-300">ARRI Alexa, Kino Flo lighting, and complete production packages ready for any project.</p>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Professional Equipment</h3>
+              <p className="text-muted-foreground">ARRI Alexa, Kino Flo lighting, and complete production packages ready for any project.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
+      <section className="py-16 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Our Services
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+            <p className="text-xl text-muted-foreground">
               Concepting → Pre‑Production → Production → Post. Agile from start to finish.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Corporate Communications */}
-            <div className="bg-white dark:bg-card p-8 rounded-lg shadow-sm border border-gray-200 dark:border-border">
-              <h3 className="text-xl font-semibold text-black dark:text-card-foreground mb-4">Corporate Communications</h3>
-              <p className="text-gray-600 dark:text-muted-foreground mb-4">
+            <div className="bg-card p-8 rounded-lg shadow-sm border border-border">
+              <h3 className="text-xl font-semibold text-card-foreground mb-4">Corporate Communications</h3>
+              <p className="text-muted-foreground mb-4">
                 Executive interviews, internal comms, training, recruitment, and public information spots.
               </p>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-muted-foreground">
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Clear, compliant storytelling</li>
                 <li>• Aligned to your style guides</li>
                 <li>• Security protocols respected</li>
