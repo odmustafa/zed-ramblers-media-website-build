@@ -37,9 +37,28 @@ const videoTypes = [
     { value: 'embed', label: 'Embed Code' }
 ]
 
+type VideoType = 'youtube' | 'vimeo' | 'direct' | 'embed'
+
+interface PortfolioItem {
+    _id: Id<"portfolio">
+    title: string
+    description: string
+    category: string
+    clientName?: string
+    clientCompany?: string
+    videoUrl: string
+    videoType: VideoType
+    thumbnailUrl?: string
+    featured: boolean
+    published: boolean
+    order: number
+    tags?: string[]
+    _creationTime: number
+}
+
 export default function AdminPortfolioPage() {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-    const [editingItem, setEditingItem] = useState<any>(null)
+    const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null)
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -47,7 +66,7 @@ export default function AdminPortfolioPage() {
         clientName: '',
         clientCompany: '',
         videoUrl: '',
-        videoType: 'youtube' as any,
+        videoType: 'youtube' as VideoType,
         thumbnailUrl: '',
         featured: false,
         published: true,
@@ -108,7 +127,7 @@ export default function AdminPortfolioPage() {
         }
     }
 
-    const handleEdit = (item: any) => {
+    const handleEdit = (item: PortfolioItem) => {
         setEditingItem(item)
         setFormData({
             title: item.title,
@@ -154,7 +173,7 @@ export default function AdminPortfolioPage() {
         })
     }
 
-    const getVideoThumbnail = (item: any) => {
+    const getVideoThumbnail = (item: PortfolioItem) => {
         if (item.thumbnailUrl) return item.thumbnailUrl
 
         if (item.videoType === 'youtube') {
@@ -259,7 +278,7 @@ export default function AdminPortfolioPage() {
                                                         <Label htmlFor="videoType">Video Platform *</Label>
                                                         <Select
                                                             value={formData.videoType}
-                                                            onValueChange={(value: any) => setFormData({ ...formData, videoType: value })}
+                                                            onValueChange={(value: VideoType) => setFormData({ ...formData, videoType: value })}
                                                         >
                                                             <SelectTrigger>
                                                                 <SelectValue placeholder="Select platform" />

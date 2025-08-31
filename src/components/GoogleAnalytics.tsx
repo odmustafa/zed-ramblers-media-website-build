@@ -16,7 +16,7 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
 
         // Initialize gtag
         window.dataLayer = window.dataLayer || []
-        function gtag(...args: any[]) {
+        function gtag(...args: (string | Date | Record<string, unknown>)[]) {
             window.dataLayer.push(args)
         }
         gtag('js', new Date())
@@ -54,7 +54,7 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
 // Extend Window interface for TypeScript
 declare global {
     interface Window {
-        dataLayer: any[]
-        gtag: (...args: any[]) => void
+        dataLayer: (string | Date | Record<string, unknown>)[][]
+        gtag: (...args: (string | Date | Record<string, unknown>)[]) => void
     }
 }

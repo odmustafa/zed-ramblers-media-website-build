@@ -25,8 +25,29 @@ import {
     Package
 } from 'lucide-react'
 
+interface RentalRequest {
+    _id: Id<"rentalRequests">
+    equipmentId: Id<"equipment">
+    equipmentName?: string
+    userId: string
+    userEmail?: string
+    startDate: number
+    endDate: number
+    quantity?: number
+    totalPrice: number
+    totalCost?: number
+    status: "pending" | "approved" | "rejected" | "completed"
+    specialRequests?: string
+    billingAddress?: string
+    phone?: string
+    notes?: string
+    createdAt: number
+    updatedAt: number
+    _creationTime: number
+}
+
 export default function AdminRentalsPage() {
-    const [selectedRental, setSelectedRental] = useState<any>(null)
+    const [selectedRental, setSelectedRental] = useState<RentalRequest | null>(null)
     const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
 
     // Fetch rental requests
@@ -274,7 +295,7 @@ export default function AdminRentalsPage() {
                                         <div className="space-y-2 text-sm">
                                             <div><strong>Name:</strong> {selectedRental.equipmentName}</div>
                                             <div><strong>Quantity:</strong> {selectedRental.quantity}</div>
-                                            <div><strong>Rate:</strong> ${selectedRental.price}/day</div>
+                                            <div><strong>Total Price:</strong> ${selectedRental.totalPrice}</div>
                                         </div>
                                     </div>
 
@@ -291,8 +312,8 @@ export default function AdminRentalsPage() {
                                 <div>
                                     <h4 className="font-medium text-black mb-2">Customer Information</h4>
                                     <div className="space-y-2 text-sm">
-                                        <div><strong>Name:</strong> {selectedRental.name}</div>
-                                        <div><strong>Email:</strong> {selectedRental.email}</div>
+                                        <div><strong>User ID:</strong> {selectedRental.userId}</div>
+                                        <div><strong>Email:</strong> {selectedRental.userEmail}</div>
                                         {selectedRental.phone && <div><strong>Phone:</strong> {selectedRental.phone}</div>}
                                     </div>
                                 </div>

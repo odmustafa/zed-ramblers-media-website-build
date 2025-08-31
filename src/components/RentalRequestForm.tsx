@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Badge } from '@/components/ui/badge'
 import { useMutation } from 'convex/react'
 import { api } from '../../convex/_generated/api'
+import { Id } from '../../convex/_generated/dataModel'
 import EquipmentCalendar from './EquipmentCalendar'
 
 const rentalSchema = z.object({
@@ -34,8 +35,24 @@ const rentalSchema = z.object({
 
 type RentalFormData = z.infer<typeof rentalSchema>
 
+interface Equipment {
+    _id: Id<"equipment">
+    name: string
+    category: string
+    pricePerDay: number
+    pricePerWeek: number
+    pricePerMonth: number
+    description: string
+    specifications?: string
+    imageUrl?: string
+    availability: boolean
+    createdAt: number
+    updatedAt: number
+    _creationTime: number
+}
+
 interface RentalRequestFormProps {
-    equipment: any
+    equipment: Equipment
     isOpen: boolean
     onClose: () => void
 }
@@ -44,8 +61,15 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false)
+    const [isClient, setIsClient] = useState(false)
 
+    // Avoid SSR issues with Convex hooks
+    // Always call hooks unconditionally
     const submitRentalRequest = useMutation(api.equipment.addRentalRequest)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     const form = useForm<RentalFormData>({
         resolver: zodResolver(rentalSchema),
@@ -92,6 +116,9 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
         setIsSubmitting(true)
 
         try {
+            if (!isClient) {
+                throw new Error('Client not ready')
+            }
             await submitRentalRequest({
                 equipmentId: equipment._id,
                 startDate: new Date(data.startDate).getTime(),
@@ -122,7 +149,7 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
                         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                         <h3 className="text-xl font-semibold text-black mb-2">Request Submitted!</h3>
                         <p className="text-gray-600 mb-4">
-                            Your rental request has been submitted successfully. We'll contact you within 24 hours to confirm availability and next steps.
+                            Your rental request has been submitted successfully. We&apos;ll contact you within 24 hours to confirm availability and next steps.
                         </p>
                         <p className="text-sm text-gray-500">
                             You can close this window now.
@@ -142,7 +169,7 @@ export default function RentalRequestForm({ equipment, isOpen, onClose }: Rental
                         Rent {equipment.name}
                     </DialogTitle>
                     <DialogDescription>
-                        Fill out the form below to request this equipment rental. We'll contact you to confirm availability.
+                        Fill out the form below to request this equipment rental. We&apos;ll contact you to confirm availability.
                     </DialogDescription>
                 </DialogHeader>
 

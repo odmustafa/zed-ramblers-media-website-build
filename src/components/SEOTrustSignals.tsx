@@ -131,7 +131,7 @@ export function SEOTrustSignals() {
                             Trusted by Leading Organizations
                         </h2>
                         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            We've worked with Fortune 500 companies, government agencies,
+                            We&apos;ve worked with Fortune 500 companies, government agencies,
                             and leading organizations across Texas and beyond.
                         </p>
                     </div>
@@ -145,8 +145,8 @@ export function SEOTrustSignals() {
                                 <span className="ml-2 text-sm text-gray-600">5.0/5.0</span>
                             </div>
                             <blockquote className="text-gray-700 mb-4">
-                                "Ramblers Media delivered exceptional quality on our corporate training series.
-                                Their attention to detail and professional approach made the entire process seamless."
+                                &ldquo;Ramblers Media delivered exceptional quality on our corporate training series.
+                                Their attention to detail and professional approach made the entire process seamless.&rdquo;
                             </blockquote>
                             <div className="flex items-center">
                                 <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
@@ -165,8 +165,8 @@ export function SEOTrustSignals() {
                                 <span className="ml-2 text-sm text-gray-600">5.0/5.0</span>
                             </div>
                             <blockquote className="text-gray-700 mb-4">
-                                "Outstanding work on our government contract. They met all compliance requirements
-                                and delivered high-quality content on schedule and within budget."
+                                &ldquo;Outstanding work on our government contract. They met all compliance requirements
+                                and delivered high-quality content on schedule and within budget.&rdquo;
                             </blockquote>
                             <div className="flex items-center">
                                 <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
@@ -185,8 +185,8 @@ export function SEOTrustSignals() {
                                 <span className="ml-2 text-sm text-gray-600">5.0/5.0</span>
                             </div>
                             <blockquote className="text-gray-700 mb-4">
-                                "Professional, reliable, and creative. They brought our brand vision to life
-                                with stunning visuals and compelling storytelling."
+                                &ldquo;Professional, reliable, and creative. They brought our brand vision to life
+                                with stunning visuals and compelling storytelling.&rdquo;
                             </blockquote>
                             <div className="flex items-center">
                                 <div className="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>

@@ -31,7 +31,7 @@ export default function AboutPage() {
             About Ramblers Media
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're a Dallas‑based team led by a veteran director‑DP—multidisciplinary, hands‑on, and comfortable wearing many hats.
+            We&apos;re a Dallas‑based team led by a veteran director‑DP—multidisciplinary, hands‑on, and comfortable wearing many hats.
           </p>
         </div>
       </section>
@@ -185,7 +185,7 @@ export default function AboutPage() {
               </div>
               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <h4 className="font-semibold text-black mb-2">Quality</h4>
-                <p className="text-gray-600 text-sm">Captioned, versioned, and QC'd deliverables.</p>
+                <p className="text-gray-600 text-sm">Captioned, versioned, and QC&apos;d deliverables.</p>
               </div>
             </div>
           </div>

@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
-
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -50,14 +48,14 @@ export default function ContactPage() {
         },
     })
 
-    // Only use Convex hooks on client side to avoid SSR issues
-    const submitContactRequest = typeof window !== 'undefined' ? useMutation(api.contact.submitContactRequest) : null
+    // Always call hooks unconditionally
+    const submitContactRequest = useMutation(api.contact.submitContactRequest)
 
     const onSubmit = async (data: ContactFormData) => {
         setIsSubmitting(true)
         try {
-            if (!submitContactRequest) {
-                throw new Error('Convex client not available')
+            if (typeof window === 'undefined') {
+                throw new Error('Client not ready')
             }
             await submitContactRequest({
                 name: data.name,
@@ -89,7 +87,7 @@ export default function ContactPage() {
                             Get Your Project Started
                         </h1>
                         <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
-                            Ready to bring your vision to life? Let's discuss your video production needs
+                            Ready to bring your vision to life? Let&apos;s discuss your video production needs
                             and create something extraordinary together.
                         </p>
                         <div className="flex items-center justify-center space-x-8 text-sm text-gray-400">
@@ -115,7 +113,7 @@ export default function ContactPage() {
                                     <CardHeader>
                                         <CardTitle className="text-2xl">Start Your Project</CardTitle>
                                         <CardDescription>
-                                            Fill out the form below and we'll get back to you within 24 hours with a customized proposal.
+                                            Fill out the form below and we&apos;ll get back to you within 24 hours with a customized proposal.
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent>
@@ -124,7 +122,7 @@ export default function ContactPage() {
                                                 <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                                                 <h3 className="text-xl font-semibold text-black mb-2">Thank You!</h3>
                                                 <p className="text-gray-600 mb-4">
-                                                    We've received your inquiry and will get back to you within 24 hours.
+                                                    We&apos;ve received your inquiry and will get back to you within 24 hours.
                                                 </p>
                                                 <Button
                                                     onClick={() => setIsSubmitted(false)}
@@ -290,7 +288,7 @@ export default function ContactPage() {
                                                                             <SelectItem value="15k-50k">$15,000 - $50,000</SelectItem>
                                                                             <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
                                                                             <SelectItem value="over100k">Over $100,000</SelectItem>
-                                                                            <SelectItem value="discuss">Let's Discuss</SelectItem>
+                                                                            <SelectItem value="discuss">Let&apos;s Discuss</SelectItem>
                                                                         </SelectContent>
                                                                     </Select>
                                                                     <FormMessage />

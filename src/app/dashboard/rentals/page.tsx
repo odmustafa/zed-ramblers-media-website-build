@@ -3,7 +3,7 @@
 // Force dynamic rendering to avoid SSR issues with Convex
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Calendar, DollarSign, Package, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -13,12 +13,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Layout from '@/components/layout/Layout'
 import { useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
+import { Id } from '../../../../convex/_generated/dataModel'
+
+interface RentalRequest {
+    _id: Id<"rentalRequests">
+    equipmentId: Id<"equipment">
+    userId: string
+    startDate: number
+    endDate: number
+    totalPrice: number
+    status: "pending" | "approved" | "rejected" | "completed"
+    notes?: string
+    createdAt: number
+    updatedAt: number
+    _creationTime: number
+}
 
 export default function RentalsDashboard() {
     const [activeTab, setActiveTab] = useState('all')
+    const [isClient, setIsClient] = useState(false)
 
-    // Fetch rental requests for the current user
-    const rentalRequests = useQuery(api.equipment.getUserRentalRequests, { userId: 'placeholder-user-id' }) || []
+    // Always call hooks unconditionally
+    const rentalRequestsQuery = useQuery(api.equipment.getUserRentalRequests, { userId: 'placeholder-user-id' })
+
+    // Avoid SSR issues with Convex hooks
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    // Use the data only after client-side mount
+    const rentalRequests = isClient ? (rentalRequestsQuery || []) : []
 
     // Filter rental requests based on status
     const filteredRequests = activeTab === 'all'
@@ -60,6 +84,29 @@ export default function RentalsDashboard() {
     }
 
     const statusCounts = getStatusCounts()
+
+    // Show loading state while component is mounting
+    if (!isClient) {
+        return (
+            <Layout>
+                <div className="min-h-screen bg-gray-50">
+                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        <div className="px-4 py-6 sm:px-0">
+                            <div className="animate-pulse">
+                                <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+                                <div className="h-4 bg-gray-200 rounded w-1/2 mb-8"></div>
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                    {[1, 2, 3, 4].map(i => (
+                                        <div key={i} className="h-24 bg-gray-200 rounded"></div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Layout>
+        )
+    }
 
     return (
         <Layout>
@@ -173,7 +220,7 @@ export default function RentalsDashboard() {
                                         </div>
                                     ) : (
                                         <div className="space-y-4">
-                                            {filteredRequests.map((request: any) => (
+                                            {filteredRequests.map((request: RentalRequest) => (
                                                 <Card key={request._id} className="p-6">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center space-x-4">
@@ -234,7 +281,7 @@ export default function RentalsDashboard() {
                                                                 <div>
                                                                     <p className="text-sm font-medium text-yellow-800">Processing Request</p>
                                                                     <p className="text-sm text-yellow-700">
-                                                                        We're reviewing your rental request. You'll receive an update within 24 hours.
+                                                                        We&apos;re reviewing your rental request. You&apos;ll receive an update within 24 hours.
                                                                     </p>
                                                                 </div>
                                                             </div>

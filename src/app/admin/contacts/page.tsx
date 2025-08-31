@@ -3,11 +3,11 @@
 // Force dynamic rendering to avoid SSR issues with Convex
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Layout from '@/components/layout/Layout'
 import { useQuery, useMutation } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
@@ -18,7 +18,6 @@ import {
     Phone,
     Calendar,
     CheckCircle,
-    XCircle,
     Clock,
     Eye,
     Send,
@@ -28,18 +27,43 @@ import {
     X
 } from 'lucide-react'
 
+interface ContactRequest {
+    _id: Id<"contactRequests">
+    name: string
+    email: string
+    phone?: string
+    company?: string
+    message: string
+    serviceType: string
+    projectType?: string
+    timeline?: string
+    budget?: string
+    status: "new" | "contacted" | "quoted" | "won" | "lost"
+    _creationTime: number
+}
+
 export default function AdminContactsPage() {
-    const [selectedContact, setSelectedContact] = useState<any>(null)
+    const [selectedContact, setSelectedContact] = useState<ContactRequest | null>(null)
     const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false)
+    const [isClient, setIsClient] = useState(false)
 
-    // Fetch contact requests
-    const contactRequests = useQuery(api.contact.getAllContactRequests) || []
-
-    // Mutations
+    // Always call hooks unconditionally
+    const contactRequestsQuery = useQuery(api.contact.getAllContactRequests)
     const updateContactStatus = useMutation(api.contact.updateContactRequestStatus)
+
+    // Avoid SSR issues with Convex hooks
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    // Use the data only after client-side mount
+    const contactRequests = isClient ? (contactRequestsQuery || []) : []
 
     const handleStatusUpdate = async (id: Id<"contactRequests">, status: "new" | "contacted" | "quoted" | "won" | "lost") => {
         try {
+            if (!isClient) {
+                throw new Error('Client not ready')
+            }
             await updateContactStatus({ id, status })
         } catch (error) {
             console.error('Error updating contact status:', error)
@@ -76,6 +100,27 @@ export default function AdminContactsPage() {
     const pendingContacts = contactRequests.filter(c => c.status === 'new')
     const respondedContacts = contactRequests.filter(c => c.status === 'contacted')
     const archivedContacts = contactRequests.filter(c => c.status === 'won' || c.status === 'lost')
+
+    // Show loading state while component is mounting
+    if (!isClient) {
+        return (
+            <Layout>
+                <div className="min-h-screen bg-gray-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                        <div className="animate-pulse">
+                            <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                {[1, 2, 3].map(i => (
+                                    <div key={i} className="h-32 bg-gray-200 rounded"></div>
+                                ))}
+                            </div>
+                            <div className="h-96 bg-gray-200 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </Layout>
+        )
+    }
 
     return (
         <Layout>

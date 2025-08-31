@@ -3,7 +3,7 @@
 // Force dynamic rendering to avoid SSR issues with Convex
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import Layout from '@/components/layout/Layout'
 import { useQuery } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
+import { Id } from '../../../convex/_generated/dataModel'
 import {
     Play,
     ExternalLink,
@@ -24,22 +25,50 @@ import {
     List
 } from 'lucide-react'
 
+interface PortfolioItem {
+    _id: Id<"portfolio">
+    title: string
+    description: string
+    category: string
+    clientName?: string
+    clientCompany?: string
+    videoUrl: string
+    videoType: 'youtube' | 'vimeo' | 'direct' | 'embed'
+    thumbnailUrl?: string
+    featured: boolean
+    published: boolean
+    order: number
+    tags: string[]
+    updatedAt: number
+    _creationTime: number
+}
+
 export default function PortfolioPage() {
-    const [selectedVideo, setSelectedVideo] = useState<any>(null)
+    const [selectedVideo, setSelectedVideo] = useState<PortfolioItem | null>(null)
     const [isVideoDialogOpen, setIsVideoDialogOpen] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState('all')
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+    const [isClient, setIsClient] = useState(false)
 
-    // Fetch portfolio data
-    const portfolioItems = useQuery(api.portfolio.getPublishedPortfolio) || []
-    const categories = useQuery(api.portfolio.getPortfolioCategories) || []
+    // Avoid SSR issues with Convex hooks
+    // Always call hooks unconditionally
+    const portfolioItemsQuery = useQuery(api.portfolio.getPublishedPortfolio)
+    const categoriesQuery = useQuery(api.portfolio.getPortfolioCategories)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    // Use the data only after client-side mount
+    const portfolioItems = isClient ? (portfolioItemsQuery || []) : []
+    const categories = isClient ? (categoriesQuery || []) : []
 
     // Filter portfolio items by category
     const filteredItems = selectedCategory === 'all'
         ? portfolioItems
         : portfolioItems.filter(item => item.category === selectedCategory)
 
-    const getVideoEmbedUrl = (item: any) => {
+    const getVideoEmbedUrl = (item: PortfolioItem) => {
         if (item.videoType === 'youtube') {
             const videoId = item.videoUrl.split('v=')[1]?.split('&')[0] ||
                 item.videoUrl.split('/').pop()?.split('?')[0]
@@ -51,7 +80,7 @@ export default function PortfolioPage() {
         return item.videoUrl
     }
 
-    const getVideoThumbnail = (item: any) => {
+    const getVideoThumbnail = (item: PortfolioItem) => {
         if (item.thumbnailUrl) return item.thumbnailUrl
 
         if (item.videoType === 'youtube') {
@@ -62,6 +91,27 @@ export default function PortfolioPage() {
 
         // Default placeholder
         return '/api/placeholder/400/225'
+    }
+
+    // Show loading state while component is mounting
+    if (!isClient) {
+        return (
+            <Layout>
+                <div className="min-h-screen bg-gray-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                        <div className="animate-pulse">
+                            <div className="h-12 bg-gray-200 rounded w-1/2 mx-auto mb-4"></div>
+                            <div className="h-6 bg-gray-200 rounded w-1/3 mx-auto mb-12"></div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {[1, 2, 3, 4, 5, 6].map(i => (
+                                    <div key={i} className="h-64 bg-gray-200 rounded"></div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Layout>
+        )
     }
 
     return (

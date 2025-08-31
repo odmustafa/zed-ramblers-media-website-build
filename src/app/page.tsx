@@ -163,7 +163,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-start space-x-3">
                   <Star className="h-5 w-5 text-black mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600">Deliverables: captioned, versioned, and QC'd files.</span>
+                  <span className="text-gray-600">Deliverables: captioned, versioned, and QC&apos;d files.</span>
                 </div>
               </div>
             </div>
@@ -178,7 +178,7 @@ export default function HomePage() {
             Ready to Start Your Project?
           </h2>
           <p className="text-xl text-gray-300 mb-8">
-            Tell us about your project timeline, location, and deliverables. We'll respond within one business day.
+            Tell us about your project timeline, location, and deliverables. We&apos;ll respond within one business day.
           </p>
           <Link href="/contact">
             <Button size="lg" className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-3">

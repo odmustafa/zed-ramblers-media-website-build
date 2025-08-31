@@ -27,7 +27,7 @@ export default async function DashboardPage() {
               Welcome to your dashboard, {user.firstName || user.username}!
             </h2>
             <p className="text-gray-600">
-              This is where you'll be able to manage your equipment rentals and view your account information.
+              This is where you&apos;ll be able to manage your equipment rentals and view your account information.
             </p>
           </div>
         </div>

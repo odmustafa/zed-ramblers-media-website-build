@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ramblersmedia.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "Ramblers Media - Professional Video Production | Dallas, TX",
     description: "Premier Dallas-based video production company specializing in corporate communications, government contracts, and professional filming services. Award-winning team with 15+ years experience.",
-    url: "http://localhost:3000",
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ramblersmedia.com',
     siteName: "Ramblers Media",
     images: [
       {

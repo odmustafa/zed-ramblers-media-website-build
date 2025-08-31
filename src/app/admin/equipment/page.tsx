@@ -3,8 +3,8 @@
 // Force dynamic rendering to avoid SSR issues with Convex
 export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState, useEffect } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -20,9 +20,24 @@ import { Plus, Edit, Trash2, Package } from 'lucide-react'
 
 const categories = ['Camera', 'Lens', 'Lighting', 'Audio', 'Support']
 
+interface Equipment {
+    _id: Id<"equipment">
+    name: string
+    category: string
+    pricePerDay: number
+    pricePerWeek: number
+    pricePerMonth: number
+    description: string
+    specifications?: string
+    imageUrl?: string
+    availability: boolean
+    _creationTime: number
+}
+
 export default function AdminEquipmentPage() {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
-    const [editingEquipment, setEditingEquipment] = useState<any>(null)
+    const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(null)
+    const [isClient, setIsClient] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         category: '',
@@ -32,13 +47,19 @@ export default function AdminEquipmentPage() {
         imageUrl: ''
     })
 
-    // Fetch equipment
-    const equipment = useQuery(api.equipment.getAllEquipment) || []
-
-    // Mutations
+    // Always call hooks unconditionally
+    const equipmentQuery = useQuery(api.equipment.getAllEquipment)
     const addEquipment = useMutation(api.equipment.addEquipment)
     const updateEquipment = useMutation(api.equipment.updateEquipment)
     const deleteEquipment = useMutation(api.equipment.deleteEquipment)
+
+    // Avoid SSR issues with Convex hooks
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
+
+    // Use the data only after client-side mount
+    const equipment = isClient ? (equipmentQuery || []) : []
 
     const resetForm = () => {
         setFormData({
@@ -56,6 +77,10 @@ export default function AdminEquipmentPage() {
         e.preventDefault()
 
         try {
+            if (!isClient) {
+                throw new Error('Client not ready')
+            }
+
             const pricePerDay = parseFloat(formData.price)
             const equipmentData = {
                 name: formData.name,
@@ -85,7 +110,7 @@ export default function AdminEquipmentPage() {
         }
     }
 
-    const handleEdit = (equipment: any) => {
+    const handleEdit = (equipment: Equipment) => {
         setEditingEquipment(equipment)
         setFormData({
             name: equipment.name,
@@ -101,6 +126,9 @@ export default function AdminEquipmentPage() {
     const handleDelete = async (id: Id<"equipment">) => {
         if (confirm('Are you sure you want to delete this equipment?')) {
             try {
+                if (!isClient) {
+                    throw new Error('Client not ready')
+                }
                 await deleteEquipment({ id })
             } catch (error) {
                 console.error('Error deleting equipment:', error)

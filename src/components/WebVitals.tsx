@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 export function WebVitals() {
     useEffect(() => {
         // Web Vitals tracking for SEO and performance monitoring
-        const reportWebVitals = (metric: any) => {
+        const reportWebVitals = (metric: { name: string; value: number; id: string }) => {
             // Send to analytics service
             console.log('Web Vitals:', metric)
 

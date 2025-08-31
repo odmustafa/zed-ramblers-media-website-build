@@ -13,7 +13,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Layout from '@/components/layout/Layout'
 import { useQuery, useMutation } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
+import { Id } from '../../../convex/_generated/dataModel'
 import RentalRequestForm from '@/components/RentalRequestForm'
+
+interface Equipment {
+  _id: Id<"equipment">
+  name: string
+  category: string
+  pricePerDay: number
+  pricePerWeek: number
+  pricePerMonth: number
+  description: string
+  specifications?: string
+  imageUrl?: string
+  availability: boolean
+  createdAt: number
+  updatedAt: number
+  _creationTime: number
+}
 
 // Map category names to icons
 const categoryIcons = {
@@ -28,18 +45,27 @@ export default function EquipmentPage() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('name')
-  const [selectedEquipment, setSelectedEquipment] = useState<any>(null)
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null)
   const [isRentalFormOpen, setIsRentalFormOpen] = useState(false)
+  const [isClient, setIsClient] = useState(false)
 
-  // Fetch equipment data from Convex
-  const allEquipment = useQuery(api.equipment.getAllEquipment) || []
+  // Always call hooks unconditionally
+  const allEquipmentQuery = useQuery(api.equipment.getAllEquipment)
   const submitRentalRequest = useMutation(api.equipment.addRentalRequest)
 
+  // Avoid SSR issues with Convex hooks
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Use the data only after client-side mount
+  const allEquipment = isClient ? (allEquipmentQuery || []) : []
+
   // Get unique categories from equipment data
-  const categories = [...new Set(allEquipment.map((item: any) => item.category))]
+  const categories = [...new Set(allEquipment.map((item: Equipment) => item.category))]
 
   // Filter and search equipment
-  const filteredEquipment = allEquipment.filter((item: any) => {
+  const filteredEquipment = allEquipment.filter((item: Equipment) => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -60,7 +86,7 @@ export default function EquipmentPage() {
     }
   })
 
-  const handleRentalRequest = (equipment: any) => {
+  const handleRentalRequest = (equipment: Equipment) => {
     setSelectedEquipment(equipment)
     setIsRentalFormOpen(true)
   }
@@ -68,6 +94,27 @@ export default function EquipmentPage() {
   const handleCloseRentalForm = () => {
     setIsRentalFormOpen(false)
     setSelectedEquipment(null)
+  }
+
+  // Show loading state while component is mounting
+  if (!isClient) {
+    return (
+      <Layout>
+        <div className="min-h-screen bg-gray-50">
+          <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+            <div className="animate-pulse">
+              <div className="h-12 bg-gray-200 rounded w-1/2 mx-auto mb-8"></div>
+              <div className="h-6 bg-gray-200 rounded w-1/3 mx-auto mb-16"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="h-96 bg-gray-200 rounded"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    )
   }
 
   return (
@@ -166,9 +213,9 @@ export default function EquipmentPage() {
               >
                 All Equipment ({allEquipment.length})
               </Button>
-              {categories.map((category: any) => {
+              {categories.map((category: string) => {
                 const IconComponent = categoryIcons[category as keyof typeof categoryIcons] || Settings
-                const count = allEquipment.filter((item: any) => item.category === category).length
+                const count = allEquipment.filter((item: Equipment) => item.category === category).length
                 return (
                   <Button
                     key={category}
@@ -200,7 +247,7 @@ export default function EquipmentPage() {
 
           {/* Equipment Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedEquipment.map((item: any) => (
+            {sortedEquipment.map((item: Equipment) => (
               <div key={item._id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -237,7 +284,7 @@ export default function EquipmentPage() {
                 <Button
                   className="w-full bg-black text-white hover:bg-gray-800"
                   disabled={!item.availability}
-                  onClick={() => handleRentalRequest(item._id)}
+                  onClick={() => handleRentalRequest(item)}
                 >
                   {item.availability ? 'Request Rental' : 'Currently Unavailable'}
                 </Button>
@@ -286,7 +333,7 @@ export default function EquipmentPage() {
                 <span className="text-2xl font-bold text-black">2</span>
               </div>
               <h3 className="text-lg font-semibold text-black mb-2">Confirm</h3>
-              <p className="text-gray-600">We'll confirm availability and send you a detailed quote with all terms.</p>
+              <p className="text-gray-600">We&apos;ll confirm availability and send you a detailed quote with all terms.</p>
             </div>
 
             <div className="text-center">
