@@ -8,5 +8,10 @@ export function ConvexClientProvider({
 }: {
   children: React.ReactNode;
 }) {
+  // If no Convex URL is available, render children without Convex provider
+  if (!process.env.NEXT_PUBLIC_CONVEX_URL && typeof window !== 'undefined') {
+    console.warn('Convex URL not configured, some features may not work');
+  }
+
   return <ConvexProvider client={convex}>{children}</ConvexProvider>;
 }
