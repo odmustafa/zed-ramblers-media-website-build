@@ -133,7 +133,7 @@ export default function Footer() {
           </p>
           <div className="mt-4 md:mt-0">
             <p className="text-gray-400 text-sm text-center md:text-right">
-              Government contractor • SAM/UEI registered • Fully insured
+              SAM/UEI registered • CAGE • OSHA • Fully insured
             </p>
           </div>
         </div>
