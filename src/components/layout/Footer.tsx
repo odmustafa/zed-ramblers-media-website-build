@@ -28,7 +28,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <img
+              <Image
                 src="/ramblers-media-logo.svg"
                 alt="Ramblers Media"
                 width={180}
