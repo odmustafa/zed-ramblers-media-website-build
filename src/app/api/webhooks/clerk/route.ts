@@ -8,15 +8,18 @@ export async function POST(req: Request) {
   // Initialize Convex client
   const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
   if (!convexUrl) {
-    throw new Error('NEXT_PUBLIC_CONVEX_URL is not set')
+    console.error('NEXT_PUBLIC_CONVEX_URL is not set')
+    return new Response('Server configuration error', { status: 500 })
   }
+
   const convex = new ConvexHttpClient(convexUrl)
 
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
-    throw new Error('Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
+    console.error('CLERK_WEBHOOK_SECRET is not set')
+    return new Response('Server configuration error', { status: 500 })
   }
 
   // Get the headers
