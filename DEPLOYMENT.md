@@ -17,16 +17,16 @@ You need to set these environment variables in your Vercel dashboard:
 
 #### 1. Clerk Authentication
 ```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_cHJvdmVuLXJlaW5kZWVyLTQxLmNsZXJrLmFjY291bnRzLmRldiQ
-CLERK_SECRET_KEY=sk_test_raOP0mtFO70nWgpbCaogWM093o4Ul3LmltZ9mIUx5X
-CLERK_JWT_ISSUER_DOMAIN=https://proven-reindeer-41.clerk.accounts.dev
-CLERK_WEBHOOK_SECRET=whsec_pq2p9G/0/Z9Tjb0CzYdMUaH8Gn4JV418
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[redacted]
+CLERK_SECRET_KEY=[redacted]
+CLERK_JWT_ISSUER_DOMAIN=[redacted]
+CLERK_WEBHOOK_SECRET=[redacted]
 ```
 
 #### 2. Convex Database
 ```
-NEXT_PUBLIC_CONVEX_URL=https://quiet-cormorant-893.convex.cloud
-CONVEX_DEPLOYMENT=dev:quiet-cormorant-893
+NEXT_PUBLIC_CONVEX_URL=[redacted]
+CONVEX_DEPLOYMENT=[redacted]
 ```
 
 #### 3. Environment
