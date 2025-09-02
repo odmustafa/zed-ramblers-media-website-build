@@ -148,3 +148,41 @@ export const getAllUsers = query({
     return await ctx.db.query("users").collect();
   },
 });
+
+// Promote current user to admin (temporary setup function)
+// This should only be used for initial setup and then removed
+export const promoteToAdmin = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    let user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) {
+      // Create user if they don't exist
+      const userId = await ctx.db.insert("users", {
+        clerkId: identity.subject,
+        email: identity.email || "",
+        firstName: identity.givenName || undefined,
+        lastName: identity.familyName || undefined,
+        role: "admin",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
+      return await ctx.db.get(userId);
+    } else {
+      // Update existing user to admin
+      await ctx.db.patch(user._id, {
+        role: "admin",
+        updatedAt: Date.now(),
+      });
+      return await ctx.db.get(user._id);
+    }
+  },
+});
