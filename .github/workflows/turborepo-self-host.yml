@@ -4,8 +4,21 @@ env:
   # The value of TURBO_TOKEN will be checked by the cache server
   TURBO_TOKEN: "secret-turbo-token"
 
-  # after checking out your code
-  - name: Checkout repository
+on:
+  pull_request:
+  push:
+    branches: [main, feature/*]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+    - name: self test action
+      uses: ./
+    # after checking out your code
+    - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Turborepo Cache Server
