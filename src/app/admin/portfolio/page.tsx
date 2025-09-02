@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import Layout from '@/components/layout/Layout'
+
 import { useQuery, useMutation } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
 import { Id } from '../../../../convex/_generated/dataModel'
@@ -186,331 +186,329 @@ export default function AdminPortfolioPage() {
     }
 
     return (
-        <Layout>
-            <div className="min-h-screen bg-gray-50">
-                {/* Header */}
-                <div className="bg-white border-b border-gray-200">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="py-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h1 className="text-3xl font-bold text-black">Portfolio Management</h1>
-                                    <p className="mt-1 text-gray-600">Manage your video portfolio and showcase</p>
-                                </div>
-                                <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-                                    <DialogTrigger asChild>
-                                        <Button
-                                            onClick={() => {
-                                                resetForm()
-                                                setIsAddDialogOpen(true)
-                                            }}
-                                            className="bg-black text-white hover:bg-gray-800"
-                                        >
-                                            <Plus className="h-4 w-4 mr-2" />
-                                            Add Portfolio Item
-                                        </Button>
-                                    </DialogTrigger>
-                                    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                                        <DialogHeader>
-                                            <DialogTitle>
-                                                {editingItem ? 'Edit Portfolio Item' : 'Add New Portfolio Item'}
-                                            </DialogTitle>
-                                            <DialogDescription>
-                                                {editingItem ? 'Update portfolio item details' : 'Add a new video project to your portfolio'}
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                        <form onSubmit={handleSubmit} className="space-y-6">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="space-y-4">
-                                                    <div>
-                                                        <Label htmlFor="title">Project Title *</Label>
-                                                        <Input
-                                                            id="title"
-                                                            value={formData.title}
-                                                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                                            placeholder="e.g., Tech Startup Product Launch"
-                                                            required
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="category">Category *</Label>
-                                                        <Select
-                                                            value={formData.category}
-                                                            onValueChange={(value) => setFormData({ ...formData, category: value })}
-                                                        >
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select category" />
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {categories.map((category) => (
-                                                                    <SelectItem key={category} value={category}>
-                                                                        {category}
-                                                                    </SelectItem>
-                                                                ))}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="clientName">Client Name</Label>
-                                                        <Input
-                                                            id="clientName"
-                                                            value={formData.clientName}
-                                                            onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
-                                                            placeholder="Client name"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="clientCompany">Client Company</Label>
-                                                        <Input
-                                                            id="clientCompany"
-                                                            value={formData.clientCompany}
-                                                            onChange={(e) => setFormData({ ...formData, clientCompany: e.target.value })}
-                                                            placeholder="Client company"
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div className="space-y-4">
-                                                    <div>
-                                                        <Label htmlFor="videoType">Video Platform *</Label>
-                                                        <Select
-                                                            value={formData.videoType}
-                                                            onValueChange={(value: VideoType) => setFormData({ ...formData, videoType: value })}
-                                                        >
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select platform" />
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {videoTypes.map((type) => (
-                                                                    <SelectItem key={type.value} value={type.value}>
-                                                                        {type.label}
-                                                                    </SelectItem>
-                                                                ))}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="videoUrl">Video URL *</Label>
-                                                        <Input
-                                                            id="videoUrl"
-                                                            value={formData.videoUrl}
-                                                            onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                                                            placeholder="https://youtube.com/watch?v=..."
-                                                            required
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
-                                                        <Input
-                                                            id="thumbnailUrl"
-                                                            value={formData.thumbnailUrl}
-                                                            onChange={(e) => setFormData({ ...formData, thumbnailUrl: e.target.value })}
-                                                            placeholder="https://example.com/thumbnail.jpg"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <Label htmlFor="order">Display Order</Label>
-                                                        <Input
-                                                            id="order"
-                                                            type="number"
-                                                            value={formData.order}
-                                                            onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                                                            placeholder="0"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <Label htmlFor="description">Project Description *</Label>
-                                                <Textarea
-                                                    id="description"
-                                                    value={formData.description}
-                                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                                    placeholder="Describe the project, techniques used, and results achieved..."
-                                                    rows={4}
-                                                    required
-                                                />
-                                            </div>
-
-                                            {/* Tags */}
-                                            <div>
-                                                <Label>Tags</Label>
-                                                <div className="flex space-x-2 mb-2">
-                                                    <Input
-                                                        value={tagInput}
-                                                        onChange={(e) => setTagInput(e.target.value)}
-                                                        placeholder="Add a tag..."
-                                                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                                                    />
-                                                    <Button type="button" onClick={addTag} variant="outline">
-                                                        Add
-                                                    </Button>
-                                                </div>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {formData.tags.map((tag, index) => (
-                                                        <Badge key={index} variant="secondary" className="cursor-pointer" onClick={() => removeTag(tag)}>
-                                                            {tag} ×
-                                                        </Badge>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            {/* Options */}
-                                            <div className="flex items-center space-x-6">
-                                                <div className="flex items-center space-x-2">
-                                                    <Checkbox
-                                                        id="featured"
-                                                        checked={formData.featured}
-                                                        onCheckedChange={(checked) => setFormData({ ...formData, featured: !!checked })}
-                                                    />
-                                                    <Label htmlFor="featured">Featured Project</Label>
-                                                </div>
-
-                                                <div className="flex items-center space-x-2">
-                                                    <Checkbox
-                                                        id="published"
-                                                        checked={formData.published}
-                                                        onCheckedChange={(checked) => setFormData({ ...formData, published: !!checked })}
-                                                    />
-                                                    <Label htmlFor="published">Published</Label>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex justify-end space-x-2">
-                                                <Button
-                                                    type="button"
-                                                    variant="outline"
-                                                    onClick={() => {
-                                                        resetForm()
-                                                        setIsAddDialogOpen(false)
-                                                    }}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                                <Button type="submit" className="bg-black text-white hover:bg-gray-800">
-                                                    {editingItem ? 'Update Portfolio Item' : 'Add Portfolio Item'}
-                                                </Button>
-                                            </div>
-                                        </form>
-                                    </DialogContent>
-                                </Dialog>
+        <div className="min-h-screen bg-zinc-50">
+            {/* Header */}
+            <div className="bg-white border-b border-zinc-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="py-6">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h1 className="text-3xl font-bold text-black">Portfolio Management</h1>
+                                <p className="mt-1 text-zinc-600">Manage your video portfolio and showcase</p>
                             </div>
+                            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        onClick={() => {
+                                            resetForm()
+                                            setIsAddDialogOpen(true)
+                                        }}
+                                        className="bg-black text-white hover:bg-zinc-800"
+                                    >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add Portfolio Item
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            {editingItem ? 'Edit Portfolio Item' : 'Add New Portfolio Item'}
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            {editingItem ? 'Update portfolio item details' : 'Add a new video project to your portfolio'}
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <Label htmlFor="title">Project Title *</Label>
+                                                    <Input
+                                                        id="title"
+                                                        value={formData.title}
+                                                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                                        placeholder="e.g., Tech Startup Product Launch"
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="category">Category *</Label>
+                                                    <Select
+                                                        value={formData.category}
+                                                        onValueChange={(value) => setFormData({ ...formData, category: value })}
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select category" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {categories.map((category) => (
+                                                                <SelectItem key={category} value={category}>
+                                                                    {category}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="clientName">Client Name</Label>
+                                                    <Input
+                                                        id="clientName"
+                                                        value={formData.clientName}
+                                                        onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                                                        placeholder="Client name"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="clientCompany">Client Company</Label>
+                                                    <Input
+                                                        id="clientCompany"
+                                                        value={formData.clientCompany}
+                                                        onChange={(e) => setFormData({ ...formData, clientCompany: e.target.value })}
+                                                        placeholder="Client company"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <Label htmlFor="videoType">Video Platform *</Label>
+                                                    <Select
+                                                        value={formData.videoType}
+                                                        onValueChange={(value: VideoType) => setFormData({ ...formData, videoType: value })}
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select platform" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {videoTypes.map((type) => (
+                                                                <SelectItem key={type.value} value={type.value}>
+                                                                    {type.label}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="videoUrl">Video URL *</Label>
+                                                    <Input
+                                                        id="videoUrl"
+                                                        value={formData.videoUrl}
+                                                        onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
+                                                        placeholder="https://youtube.com/watch?v=..."
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
+                                                    <Input
+                                                        id="thumbnailUrl"
+                                                        value={formData.thumbnailUrl}
+                                                        onChange={(e) => setFormData({ ...formData, thumbnailUrl: e.target.value })}
+                                                        placeholder="https://example.com/thumbnail.jpg"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <Label htmlFor="order">Display Order</Label>
+                                                    <Input
+                                                        id="order"
+                                                        type="number"
+                                                        value={formData.order}
+                                                        onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                                                        placeholder="0"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <Label htmlFor="description">Project Description *</Label>
+                                            <Textarea
+                                                id="description"
+                                                value={formData.description}
+                                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                                placeholder="Describe the project, techniques used, and results achieved..."
+                                                rows={4}
+                                                required
+                                            />
+                                        </div>
+
+                                        {/* Tags */}
+                                        <div>
+                                            <Label>Tags</Label>
+                                            <div className="flex space-x-2 mb-2">
+                                                <Input
+                                                    value={tagInput}
+                                                    onChange={(e) => setTagInput(e.target.value)}
+                                                    placeholder="Add a tag..."
+                                                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                                                />
+                                                <Button type="button" onClick={addTag} variant="outline">
+                                                    Add
+                                                </Button>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                {formData.tags.map((tag, index) => (
+                                                    <Badge key={index} variant="secondary" className="cursor-pointer" onClick={() => removeTag(tag)}>
+                                                        {tag} ×
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Options */}
+                                        <div className="flex items-center space-x-6">
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id="featured"
+                                                    checked={formData.featured}
+                                                    onCheckedChange={(checked) => setFormData({ ...formData, featured: !!checked })}
+                                                />
+                                                <Label htmlFor="featured">Featured Project</Label>
+                                            </div>
+
+                                            <div className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id="published"
+                                                    checked={formData.published}
+                                                    onCheckedChange={(checked) => setFormData({ ...formData, published: !!checked })}
+                                                />
+                                                <Label htmlFor="published">Published</Label>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-end space-x-2">
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => {
+                                                    resetForm()
+                                                    setIsAddDialogOpen(false)
+                                                }}
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button type="submit" className="bg-black text-white hover:bg-zinc-800">
+                                                {editingItem ? 'Update Portfolio Item' : 'Add Portfolio Item'}
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {/* Portfolio Items Grid */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="grid gap-6">
-                        {portfolioItems.map((item) => (
-                            <Card key={item._id}>
-                                <CardContent className="p-6">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center space-x-4">
-                                            <div className="relative w-32 h-20 overflow-hidden rounded-lg">
-                                                <img
-                                                    src={getVideoThumbnail(item)}
-                                                    alt={item.title}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                                    <Play className="h-6 w-6 text-white" />
-                                                </div>
-                                            </div>
-
-                                            <div className="flex-1">
-                                                <div className="flex items-center space-x-3 mb-2">
-                                                    <h3 className="text-lg font-semibold text-black">{item.title}</h3>
-                                                    <Badge variant="secondary">{item.category}</Badge>
-                                                    {item.featured && (
-                                                        <Badge className="bg-yellow-500 text-black">
-                                                            <Star className="h-3 w-3 mr-1" />
-                                                            Featured
-                                                        </Badge>
-                                                    )}
-                                                    {!item.published && (
-                                                        <Badge variant="outline" className="text-gray-500">
-                                                            Draft
-                                                        </Badge>
-                                                    )}
-                                                </div>
-
-                                                <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-                                                    {item.description}
-                                                </p>
-
-                                                <div className="flex items-center space-x-4 text-sm text-gray-500">
-                                                    {item.clientName && (
-                                                        <span>Client: {item.clientName}</span>
-                                                    )}
-                                                    {item.tags && item.tags.length > 0 && (
-                                                        <span>Tags: {item.tags.join(', ')}</span>
-                                                    )}
-                                                    <span>Order: {item.order}</span>
-                                                </div>
+            {/* Portfolio Items Grid */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="grid gap-6">
+                    {portfolioItems.map((item) => (
+                        <Card key={item._id}>
+                            <CardContent className="p-6">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="relative w-32 h-20 overflow-hidden rounded-lg">
+                                            <img
+                                                src={getVideoThumbnail(item)}
+                                                alt={item.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                                <Play className="h-6 w-6 text-white" />
                                             </div>
                                         </div>
 
-                                        <div className="flex space-x-2">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => window.open(item.videoUrl, '_blank')}
-                                            >
-                                                <ExternalLink className="h-4 w-4 mr-2" />
-                                                View
-                                            </Button>
+                                        <div className="flex-1">
+                                            <div className="flex items-center space-x-3 mb-2">
+                                                <h3 className="text-lg font-semibold text-black">{item.title}</h3>
+                                                <Badge variant="secondary">{item.category}</Badge>
+                                                {item.featured && (
+                                                    <Badge className="bg-yellow-500 text-black">
+                                                        <Star className="h-3 w-3 mr-1" />
+                                                        Featured
+                                                    </Badge>
+                                                )}
+                                                {!item.published && (
+                                                    <Badge variant="outline" className="text-zinc-500">
+                                                        Draft
+                                                    </Badge>
+                                                )}
+                                            </div>
 
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => handleEdit(item)}
-                                            >
-                                                <Edit className="h-4 w-4 mr-2" />
-                                                Edit
-                                            </Button>
+                                            <p className="text-zinc-600 text-sm mb-2 line-clamp-2">
+                                                {item.description}
+                                            </p>
 
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                className="border-red-300 text-red-600 hover:bg-red-50"
-                                                onClick={() => handleDelete(item._id)}
-                                            >
-                                                <Trash2 className="h-4 w-4 mr-2" />
-                                                Delete
-                                            </Button>
+                                            <div className="flex items-center space-x-4 text-sm text-zinc-500">
+                                                {item.clientName && (
+                                                    <span>Client: {item.clientName}</span>
+                                                )}
+                                                {item.tags && item.tags.length > 0 && (
+                                                    <span>Tags: {item.tags.join(', ')}</span>
+                                                )}
+                                                <span>Order: {item.order}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </CardContent>
-                            </Card>
-                        ))}
 
-                        {portfolioItems.length === 0 && (
-                            <Card>
-                                <CardContent className="p-12 text-center">
-                                    <Play className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                                    <h3 className="text-lg font-medium text-gray-900 mb-2">No Portfolio Items Yet</h3>
-                                    <p className="text-gray-500 mb-6">Start building your video portfolio by adding your first project.</p>
-                                    <Button
-                                        onClick={() => setIsAddDialogOpen(true)}
-                                        className="bg-black text-white hover:bg-gray-800"
-                                    >
-                                        <Plus className="h-4 w-4 mr-2" />
-                                        Add Your First Project
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        )}
-                    </div>
+                                    <div className="flex space-x-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => window.open(item.videoUrl, '_blank')}
+                                        >
+                                            <ExternalLink className="h-4 w-4 mr-2" />
+                                            View
+                                        </Button>
+
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => handleEdit(item)}
+                                        >
+                                            <Edit className="h-4 w-4 mr-2" />
+                                            Edit
+                                        </Button>
+
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="border-red-300 text-red-600 hover:bg-red-50"
+                                            onClick={() => handleDelete(item._id)}
+                                        >
+                                            <Trash2 className="h-4 w-4 mr-2" />
+                                            Delete
+                                        </Button>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+
+                    {portfolioItems.length === 0 && (
+                        <Card>
+                            <CardContent className="p-12 text-center">
+                                <Play className="h-12 w-12 text-zinc-400 mx-auto mb-4" />
+                                <h3 className="text-lg font-medium text-zinc-900 mb-2">No Portfolio Items Yet</h3>
+                                <p className="text-zinc-500 mb-6">Start building your video portfolio by adding your first project.</p>
+                                <Button
+                                    onClick={() => setIsAddDialogOpen(true)}
+                                    className="bg-black text-white hover:bg-zinc-800"
+                                >
+                                    <Plus className="h-4 w-4 mr-2" />
+                                    Add Your First Project
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
             </div>
-        </Layout>
+        </div>
     )
 }
