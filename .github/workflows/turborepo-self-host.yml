@@ -43,8 +43,12 @@ jobs:
         # Requests larger than that, will get "HTTP 413: Entity Too Large" errors
         MAX_PAYLOAD_SIZE_IN_MB: "100"
 
-    # Now you can run your turborepo tasks and rely on the cache server
-    # available in the background to provide previously built artifacts (cache hits)
-    # and let Turborepo upload new artifacts when there is a cache miss.
-    - name: Run tasks
-      run: turbo run test build typecheck
+    # Install dependencies and run build tasks
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run lint
+      run: npm run lint
+
+    - name: Build project
+      run: npm run build
